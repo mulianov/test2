@@ -1,0 +1,11 @@
+.Xil
+*.svg
+*.json
+*.fst
+*.vcd
+obj_dir
+slpp_all
+_output
+logs
+verible.filelist
+top

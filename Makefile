@@ -109,8 +109,11 @@ yosys_synth:
 synth_svg: yosys_synth
 	netlistsvg -o $(file_main).svg $(file_main).json
 
-wave: run_test
-	gtkwave -T gtkwave.tcl wave_iverilog.fst
+wave_verilated: verilate
+	gtkwave -T gtkwave.tcl wave_verilator.fst
+
+wave_icarus: run_test
+	gtkwave -T gtkwave.tcl wave_icarus.fst
 
 vivado:
 	vivado -mode tcl -source ./test1.tcl
@@ -118,5 +121,8 @@ vivado:
 verible_filelist:
 	find . -name "*.sv" -o -name "*.svh" -o -name "*.v" | sort > verible.filelist
 
+vsim:
+	vsim -do sim.do
+
 clean:
-	rm -rf top *.fst *.json *.svg _output slpp_all logs obj_dir verible.filelist *.vcd
+	rm -rf top *.fst *.json *.svg _output slpp_all logs obj_dir verible.filelist *.vcd covhtmlreport *.ucdb transcript vsim.dbg vsim.wlf work

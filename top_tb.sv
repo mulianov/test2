@@ -18,7 +18,7 @@ module top_tb ();
 
     top #(
         .WIDTH   (WIDTH),
-        .FIFO_LEN(1)
+        .FIFO_LEN(2)
         // .OUT_WIDTH(OUT_WIDTH)
     ) top_i (
         .i_data(i_data),
@@ -41,7 +41,7 @@ module top_tb ();
         @(negedge rst);
 
         for (trans_cnt = 0; trans_cnt < trans_number; trans_cnt = trans_cnt + 1) begin
-            i_data = trans_cnt;
+            i_data <= trans_cnt;
             // i_data  <= $urandom(seed);
             // out_ref <= $countbits(i_data, '1);
             @(posedge clk);
@@ -52,7 +52,7 @@ module top_tb ();
 
     // дамп waveforms в VCD формате
     initial begin
-        $dumpfile("wave_iverilog.fst");
+        $dumpfile("wave_icarus.fst");
         $dumpvars(0, top_i, top_tb);
     end
 

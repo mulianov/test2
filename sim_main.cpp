@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **env) {
   Vtop *top = new Vtop; // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
   VerilatedFstC *trace = new VerilatedFstC;
   top->trace(trace, 99);
-  const char *trace_file_name = "wave_verilated.fst";
+  const char *trace_file_name = "wave_verilator.fst";
   trace->open(trace_file_name);
 
   top->clk = 0;

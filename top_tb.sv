@@ -12,6 +12,7 @@ module top_tb ();
 
     logic [WIDTH-1:0] i_data;
     logic [WIDTH-1:0] o_data;
+    logic o_valid;
     // logic [WIDTH-1:0] out_ref;
     logic rst = 1'b1;
     logic clk = 1'b0;
@@ -24,7 +25,8 @@ module top_tb ();
         .i_data(i_data),
         .o_data(o_data),
         .clk(clk),
-        .rst(rst)
+        .rst(rst),
+        .o_valid(o_valid)
     );
 
     always #5 clk <= ~clk;
@@ -56,6 +58,6 @@ module top_tb ();
         $dumpvars(0, top_i, top_tb);
     end
 
-    initial $monitor($stime,, trans_cnt,, rst,, clk, i_data,, o_data);
+    initial $monitor($stime,, trans_cnt,, rst,, clk, i_data,, o_data,, o_valid,, top_i.valid_counter);
 
 endmodule

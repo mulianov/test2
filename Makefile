@@ -124,5 +124,11 @@ verible_filelist:
 vsim:
 	vsim -do sim.do
 
+cocotb:
+	pytest -o log_cli=True test_top.py
+#
 clean:
-	rm -rf top *.fst *.json *.svg _output slpp_all logs obj_dir verible.filelist *.vcd covhtmlreport *.ucdb transcript vsim.dbg vsim.wlf work
+	rm -rf top *.fst *.json *.svg _output slpp_all logs \
+		obj_dir verible.filelist *.vcd covhtmlreport \
+		*.ucdb transcript vsim.dbg vsim.wlf \
+		work sim_build __pycache__

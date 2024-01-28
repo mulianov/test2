@@ -27,7 +27,7 @@ module top #(
     initial
         $display("fuuu %01b", var_bool);
 
-    // import "DPI-C" function int add (input int a, input int b);
+    import "DPI-C" function int add (input int a, input int b);
 
     // initial begin
     //    $display("%x + %x = %x", 1, 2, add(1,2));

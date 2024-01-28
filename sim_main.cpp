@@ -6,6 +6,8 @@
 
 vluint64_t main_time = 0;
 
+int add(int a, int b) { return a+b; };
+
 int main(int argc, char **argv, char **env) {
   // This example started with the Verilator example files.
   // Please see those examples for commented sources, here:

@@ -11,8 +11,6 @@ from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge
 from cocotb.types import LogicArray
 
-from vcd.gtkw import GTKWSave
-
 @cocotb.test()
 async def top_simple_test(dut):
     # Assert initial output is unknown

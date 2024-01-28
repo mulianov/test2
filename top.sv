@@ -15,6 +15,24 @@ module top #(
     integer i;
     logic [$clog2(FIFO_LEN):0] valid_counter;
 
+    export "DPI-C" task publicSetBool;
+
+    bit var_bool;
+
+    task publicSetBool;
+       input bit in_bool;
+       var_bool = in_bool;
+    endtask
+
+    initial
+        $display("fuuu %01b", var_bool);
+
+    // import "DPI-C" function int add (input int a, input int b);
+
+    // initial begin
+    //    $display("%x + %x = %x", 1, 2, add(1,2));
+    // endtask
+
     assign o_data = mem[FIFO_LEN-1];
 
     always_ff @(posedge clk) begin

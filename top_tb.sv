@@ -29,6 +29,8 @@ module top_tb ();
         .o_valid(o_valid)
     );
 
+    // initial $hello;
+
     always #5 clk <= ~clk;
 
     // удержание сигнала сброса в активном уровне в течение 3 тактов

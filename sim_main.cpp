@@ -2,6 +2,7 @@
 #include <verilated_fst_c.h>
 
 #include "Vtop.h"
+#include "Vtop__Dpi.h"
 
 vluint64_t main_time = 0;
 
@@ -23,6 +24,11 @@ int main(int argc, char **argv, char **env) {
   top->trace(trace, 99);
   const char *trace_file_name = "wave_verilator.fst";
   trace->open(trace_file_name);
+
+  Verilated::scopesDump();
+
+  svSetScope (svGetScopeFromName ("TOP.top"));
+  Vtop::publicSetBool(1);
 
   top->clk = 0;
   // while (!Verilated::gotFinish()) {

@@ -90,10 +90,10 @@ module_top = top
 all: test run_test
 
 test:
-	iverilog -o top -g2012 top.sv top_tb.sv
+	iverilog -o top.vvp -g2012 top.sv top_tb.sv
 
 run_test: test
-	vvp top -fst
+	vvp top.vvp -fst
 
 yosys_elaborate:
 	yosys -p "plugin -i systemverilog" \
@@ -126,6 +126,10 @@ vsim:
 
 cocotb:
 	pytest -o log_cli=True test_top.py
+
+vpi: test
+	iverilog-vpi test_vpi.c
+	vvp -M . -m test_vpi top.vvp
 #
 clean:
 	rm -rf top *.fst *.json *.svg _output slpp_all logs \

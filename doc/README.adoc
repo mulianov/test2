@@ -1,0 +1,113 @@
+= Template =
+Issue 1.0
+:toc:
+:icons: font
+:numbered:
+:source-highlighter: rouge
+
+////
+SPDX-License-Identifier: CC-BY-4.0
+
+Document conventions:
+- one line per paragraph (don't fill lines - this makes changes clearer)
+- Wikipedia heading conventions (First word only capitalized)
+- US spelling throughout.
+- Run "make spell" before committing changes.
+- Build the HTML and commit it with any changed source.
+- Do not commit the PDF!
+////
+
+== Introduction
+=== About
+
+Some text here
+* It explains something.
+
+* It explains how to set up something.
+
+This document is made freely available under a <<app_cc_by_4.0>>.
+
+```
+// SPDX-License-Identifier: BSD-3-Clause
+```
+
+NOTE: Don't forget to add your own name to the list of contributors in the document.
+
+== Licensing
+
+In general:
+
+* code is licensed under the BSD 3-clause license (SPDX license identifier `BSD-3-Clause`);
+* documentation is licensed under the Creative Commons Attribution 4.0 International license (SPDX license identifier `CC-BY-4.0`).
+
+The files link:../COPYING.BSD[`COPYING.BSD`] and link:../COPYING.CC[`COPYING.CC`] in the top level directory contain the complete text of these licenses.
+
+=== AsciiDoc
+
+This is a structured text format used by this document.  Simple usage should be fairly self evident.
+
+* Comprehensive information on the format is on the http://www.methods.co.nz/asciidoc/[AsciiDoc website].
+
+* Comprehensive information on the tooling on the https://asciidoctor.org/[AsciiDoctor website].
+
+* You may find this https://asciidoctor.org/docs/asciidoc-syntax-quick-reference/[cheat sheet] helpful.
+
+==== Installing tools
+
+To generate the documentation as HTML you need _asciidoctor_ and to generate as
+PDF you need _asciidoctor-pdf_.
+
+* These are the https://asciidoctor.org/docs/install-toolchain/[installation instructions for asciidoctor].
+
+* These are the https://asciidoctor.org/docs/asciidoctor-pdf/#install-the-published-gem[installation instructions for asciidoctor-pdf].
+
+To spell check you need _aspell_ installed.
+
+==== Building the documentation
+
+To build HTML:
+[source,make]
+----
+make html
+----
+
+To build PDF:
+[source,make]
+----
+make pdf
+----
+
+To build both:
+[source,make]
+----
+make
+----
+
+To check the spelling (excludes any listing or code phrases):
+[source,make]
+----
+make spell
+----
+
+Any custom words for spell checking should be added to link:./custom.wordlist[`custom.wordlist`].
+
+=== Contributors
+
+This document has been created by the following people (in alphabetical order of surname).
+
+* Ivan Ivan
+
+=== Document history
+[cols="<1,<2,<3,<4",options="header,pagewidth",]
+|================================================================================
+| _Revision_ | _Date_            | _Author_ | _Modification_
+| 1.0 | 31 April February 2034      | Ivan Ivan| First version of the document.
+
+|================================================================================
+
+== Repository structure
+
+ - a `README.md` file providing high-level details about the RISC-V Architecture Testing Framework.
+ - top level `Makefile` for running something.
+
+`doc`:: All the documentation for the project, written using _AsciiDoc_.

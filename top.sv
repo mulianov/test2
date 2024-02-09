@@ -15,6 +15,7 @@ module top #(
     integer i;
     logic [$clog2(FIFO_LEN):0] valid_counter;
 
+    `ifndef __ICARUS__
     export "DPI-C" task publicSetBool;
     import "DPI-C" function int add (input int a, input int b);
 
@@ -29,6 +30,7 @@ module top #(
        $display("%x + %x = %x", 1, 2, add(1,2));
         $display("fuuu %01b", var_bool);
     end
+    `endif
 
     assign o_data = mem[FIFO_LEN-1];
 

@@ -1,3 +1,5 @@
+CUR_DIR=$(shell pwd)
+
 .PHONY: run_test
 
 ######################################################################
@@ -136,3 +138,20 @@ clean:
 		obj_dir verible.filelist *.vcd covhtmlreport \
 		*.ucdb transcript vsim.dbg vsim.wlf \
 		work sim_build __pycache__
+
+docker_build:
+	docker build docker -t user/questa
+
+docker_save:
+	docker save user/questa:latest -o docker/questa
+
+docker_load:
+	docker load -i docker/questa
+
+docker_run:
+	docker run -it --rm \
+		-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix${DISPLAY} \
+		--mac-address 02:42:C0:A8:00:ff \
+		--security-opt label=disable  \
+		-v $(CUR_DIR):$(CUR_DIR):rw,z --workdir $(CUR_DIR) \
+		mulianov/questa:latest

@@ -1,60 +1,58 @@
 `timescale 1ns / 1ps
 
-module top #(
-    parameter WIDTH = 8,
-    parameter FIFO_LEN = 3
-) (
-    input                         clk,
-    input                         rst,
-    input  wire logic [WIDTH-1:0] i_data,
-    output wire logic [WIDTH-1:0] o_data,
-    output wire logic             o_valid
+module top (
+    input clk, reset,
+    input  logic button,
+    output logic red,
+    output logic green,
+    output logic blue
 );
+    typedef enum logic [1:0] {
+        BLANK = 2'b00,
+        RED = 2'b01,
+        GREEN = 2'b11,
+        BLUE = 2'b10,
+        XXX = 'x } state_e;
 
-    logic [FIFO_LEN-1:0][WIDTH-1:0] mem;
-    integer i;
-    logic [$clog2(FIFO_LEN):0] valid_counter;
+    state_e state, next;
+    logic n_red, n_green, n_blue;
 
-    `ifndef __ICARUS__
-    export "DPI-C" task publicSetBool;
-    import "DPI-C" function int add (input int a, input int b);
+    always_ff @(posedge clk or posedge reset)
+        if (reset) state <= BLANK;
+        else state <= next;
 
-    bit var_bool;
-
-    task publicSetBool;
-       input bit in_bool;
-       var_bool = in_bool;
-    endtask
-
-    initial begin
-       $display("%x + %x = %x", 1, 2, add(1,2));
-        $display("fuuu %01b", var_bool);
+    always_comb begin
+        next = XXX;
+        case (state)
+            BLANK : if (button) next = RED;
+                    else        next = BLANK;
+            RED : next = GREEN;
+            GREEN : next = BLUE;
+            BLUE : next = BLANK;
+        endcase
     end
-    `endif
 
-    assign o_data = mem[FIFO_LEN-1];
+    always_comb begin
+        n_red = '0;
+        n_green = '0;
+        n_blue = '0;
+        case (state)
+            BLANK : ;
+            RED : n_red = '1;
+            GREEN : n_green = '1;
+            BLUE : n_blue = '1;
+        endcase
+    end
 
-    always_ff @(posedge clk) begin
-        if (rst) begin
-            for (i = 0; i < FIFO_LEN; i++) mem[i] <= 0;
-            valid_counter <= FIFO_LEN + 1;
-            // if (0 != $sampled(valid_counter))
-            //     $display("FUUU %0b", valid_counter);
+    always_ff @(posedge clk or posedge reset)
+        if (reset) begin
+            red <= 0;
+            green <= 0;
+            blue <= 0;
         end else begin
-            mem[0] <= i_data;
-            for (i = 1; i < FIFO_LEN; i++) mem[i] <= mem[i-1];
-            valid_counter <= valid_counter > 0 ? valid_counter - 1 : 0;
+            red <= n_red;
+            green <= n_green;
+            blue <= n_blue;
         end
-    end
-
-    `ifndef __ICARUS__
-    assert property(@(negedge rst) valid_counter == FIFO_LEN + 1)
-        else begin
-            $display("t=%0t  $past assert 1 failed, %0d", $time, valid_counter);
-            $stop;
-        end
-    `endif
-
-    assign o_valid = valid_counter == 0;
 
 endmodule

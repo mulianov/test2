@@ -9,3 +9,13 @@ _output
 logs
 verible.filelist
 top
+covhtmlreport
+work
+report.ucdb
+test_vpi.o
+test_vpi.vpi
+top.vvp
+transcript
+vsim.dbg
+vsim.wlf
+.nvim/svlangserver/linter.vc

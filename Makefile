@@ -137,7 +137,7 @@ clean:
 	rm -rf top *.fst *.json *.svg _output slpp_all logs \
 		obj_dir verible.filelist *.vcd covhtmlreport \
 		*.ucdb transcript vsim.dbg vsim.wlf \
-		work sim_build __pycache__
+		work sim_build __pycache__ cscope*
 
 docker_build:
 	docker build docker -t user/questa

@@ -1,7 +1,10 @@
 `timescale 1ns / 1ps
 
-module top (
-    input clk, reset,
+module top #(
+    parameter COUNTER_MAX = 10
+) (
+    input clk,
+    input reset,
     input  logic button,
     output logic red,
     output logic green,
@@ -16,6 +19,12 @@ module top (
 
     state_e state, next;
     logic n_red, n_green, n_blue;
+
+    logic [COUNTER_MAX-1:0] counter;
+
+    always_ff @(posedge clk or posedge reset)
+        if (reset) counter <= 0;
+        else counter <= counter + 1;
 
     always_ff @(posedge clk or posedge reset)
         if (reset) state <= BLANK;

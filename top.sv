@@ -19,7 +19,6 @@ module top #(
     } state_e;
 
     state_e state, next;
-    logic n_red, n_green, n_blue;
 
     logic [COUNTER_MAX-1:0] counter;
 
@@ -45,7 +44,7 @@ module top #(
     end
     // verilog_format: on
 
-    // `define STYLE3
+`define STYLE3
 `ifdef STYLE3
     always_ff @(posedge clk or posedge reset)
         if (reset) begin
@@ -65,6 +64,7 @@ module top #(
             endcase
         end
 `else  // STYLE4
+    logic n_red, n_green, n_blue;
     always_comb begin
         n_red   = '0;
         n_green = '0;

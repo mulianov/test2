@@ -138,7 +138,7 @@ clean:
 		obj_dir verible.filelist *.vcd covhtmlreport \
 		*.ucdb transcript vsim.dbg vsim.wlf \
 		work sim_build __pycache__ cscope* vivado* *.vpi *.vvp \
-		.nvim .pytest_cache .Xil
+		.nvim .pytest_cache .Xil .svunit.f
 
 docker_build:
 	docker build docker -t user/questa

@@ -29,7 +29,7 @@ module top #(
         else if (state != next) counter <= '0;
         else counter <= counter + 1'b1;
 
-    assign counter_done = (counter == COUNTER_MAX - 1) ? 1'b1 : '0;
+    assign counter_done = (int'(counter) == COUNTER_MAX - 1) ? 1'b1 : '0;
 
     always_ff @(posedge clk or posedge reset)
         if (reset) state <= BLANK;
@@ -50,7 +50,7 @@ module top #(
         endcase
     end
 
-    `define STYLE3
+`define STYLE3
 `ifdef STYLE3
     always_ff @(posedge clk or posedge reset)
         if (reset) begin
@@ -63,9 +63,9 @@ module top #(
             blue  <= '0;
             case (next)
                 BLANK:   ;
-                RED:     red <= 1'b1;
+                RED:     red   <= 1'b1;
                 GREEN:   green <= 1'b1;
-                BLUE:    blue <= 1'b1;
+                BLUE:    blue  <= 1'b1;
                 default: {red, green, blue} <= 'x;
             endcase
         end
@@ -79,7 +79,7 @@ module top #(
             BLANK:   if (button) n_red = 1'b1;  /* RED */
  else;
             RED:     n_green = 1'b1;
-            GREEN:   n_blue = 1'b1;
+            GREEN:   n_blue  = 1'b1;
             BLUE:    ;
             default: {n_red, n_green, n_blue} = 'x;
         endcase

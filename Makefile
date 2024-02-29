@@ -117,8 +117,11 @@ wave_verilated: verilate
 wave_icarus: run_test
 	gtkwave -T gtkwave.tcl wave_icarus.fst
 
-vivado:
-	vivado -mode tcl -source ./test1.tcl
+vivado_elab:
+	vivado -mode tcl -source ./vivado_elab.tcl
+
+vivado_full:
+	vivado -mode tcl -source ./vivado_full.tcl
 
 verible_filelist:
 	find . -name "*.sv" -o -name "*.svh" -o -name "*.v" | sort > verible.filelist

@@ -51,6 +51,6 @@ write_xdc -no_fixed_only -force $outputDir/top_impl.xdc
 #
 # STEP#5: generate a bitstream
 #
-# write_bitstream -force $outputDir/bft.bit
+write_bitstream -force $outputDir/bft.bit
 #
 exit

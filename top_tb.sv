@@ -35,7 +35,7 @@ module top_tb ();
             button <= 1'b0;
         // end
 
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < 100; i++)
             @(posedge clk);
 
         $finish;

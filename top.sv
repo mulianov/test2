@@ -20,46 +20,52 @@ module top #(
 
     state_e state, next;
 
-    logic [COUNTER_MAX-1:0] counter;
+    localparam int unsigned COUNTER_WIDTH = $clog2(COUNTER_MAX);
+    logic [COUNTER_WIDTH-1:0] counter;
+    logic counter_done;
 
     always_ff @(posedge clk or posedge reset)
-        if (reset) counter <= 0;
-        else counter <= counter + 1;
+        if (reset) counter <= '0;
+        else if (state != next) counter <= '0;
+        else counter <= counter + 1'b1;
+
+    assign counter_done = (counter == COUNTER_MAX - 1) ? 1'b1 : '0;
 
     always_ff @(posedge clk or posedge reset)
         if (reset) state <= BLANK;
         else state <= next;
 
-    // verilog_format: off
     always_comb begin
         next = XXX;
         case (state)
-            BLANK: if (button) next = RED;
-                   else        next = BLANK; // @lb
-            RED:               next = GREEN;
-            GREEN:             next = BLUE;
-            BLUE:              next = BLANK;
-            default :          next = XXX;
+            BLANK:   if (button)       next = RED;
+                     else              next = BLANK; // @lb
+            RED:     if (counter_done) next = GREEN;
+                     else              next = RED;   // @lb
+            GREEN:   if (counter_done) next = BLUE;
+                     else              next = GREEN; // @lb
+            BLUE:    if (counter_done) next = BLANK;
+                     else              next = BLUE;  // @lb
+            default:                   next = XXX;
         endcase
     end
-    // verilog_format: on
 
-`define STYLE3
+    `define STYLE3
 `ifdef STYLE3
     always_ff @(posedge clk or posedge reset)
         if (reset) begin
-            red   <= 0;
-            green <= 0;
-            blue  <= 0;
+            red   <= '0;
+            green <= '0;
+            blue  <= '0;
         end else begin
             red   <= '0;
             green <= '0;
             blue  <= '0;
             case (next)
                 BLANK:   ;
-                RED:     red <= '1;
-                GREEN:   green <= '1;
-                BLUE:    blue <= '1;
+                RED:     red <= 1'b1;
+                GREEN:   green <= 1'b1;
+                BLUE:    blue <= 1'b1;
                 default: {red, green, blue} <= 'x;
             endcase
         end
@@ -70,20 +76,20 @@ module top #(
         n_green = '0;
         n_blue  = '0;
         case (state)
-            BLANK:   if (button) n_red = '1;  /* RED */
-                     else        ;
-            RED:                 n_green = '1;
-            GREEN:               n_blue = '1;
-            BLUE:                ;
-            default:             {n_red, n_green, n_blue} = 'x;
+            BLANK:   if (button) n_red = 1'b1;  /* RED */
+ else;
+            RED:     n_green = 1'b1;
+            GREEN:   n_blue = 1'b1;
+            BLUE:    ;
+            default: {n_red, n_green, n_blue} = 'x;
         endcase
     end
 
     always_ff @(posedge clk or posedge reset)
         if (reset) begin
-            red   <= 0;
-            green <= 0;
-            blue  <= 0;
+            red   <= '0;
+            green <= '0;
+            blue  <= '0;
         end else begin
             red   <= n_red;
             green <= n_green;

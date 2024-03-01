@@ -97,7 +97,7 @@ module top #(
         end
 `endif
 
-   always_ff @ (posedge reset) begin
+   always_ff @ (negedge reset) begin
       AssertionExample: assert (state == BLANK);
    end
 

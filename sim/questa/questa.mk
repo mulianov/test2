@@ -11,6 +11,9 @@ vsim:
 	vsim -voptargs=+acc -debugDB -coverage -fsmdebug \
 		-onfinish stop top_tb -do $(QUESTA_SRC_DIR)/sim.do
 
+vsim.clean:
+	rm -rf $(QUESTA_BUILD_DIR)
+
 docker.build:
 	docker build docker -t user/questa
 
@@ -21,7 +24,7 @@ docker.load:
 	docker load -i docker/questa
 
 docker.run:
-	docker run -it --rm \
+	docker run -it --rm --user "$(shell id -u):$(shell id -g)" \
 		-v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix${DISPLAY} \
 		--mac-address 02:42:C0:A8:00:ff \
 		--security-opt label=disable  \

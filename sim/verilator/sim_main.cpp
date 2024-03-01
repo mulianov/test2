@@ -1,11 +1,7 @@
 #include <verilated.h>
 #include <verilated_fst_c.h>
 
-#include "Vtop.h"
-// #include "Vtop__Dpi.h"
-
-int add(int a, int b) { return a + b; };
-
+#include "Vtop_tb.h"
 
 int main(int argc, char **argv, char **env) {
   const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
@@ -19,38 +15,27 @@ int main(int argc, char **argv, char **env) {
   Verilated::assertOn(false);
   VerilatedCov::zero();
 
-  Vtop *top = new Vtop;
-  VerilatedFstC *trace = new VerilatedFstC;
-  top->trace(trace, 1);
-  const char *trace_file_name = "wave_verilator.fst";
-  trace->open(trace_file_name);
+  Vtop_tb *tb = new Vtop_tb;
 
   int clk = 0;
 
-  while (t < 100 && !contextp->gotFinish()) {
-    top->clk = ~top->clk;
+  while (!contextp->gotFinish()) {
+    contextp->timeInc(1);  // 1 timeprecision period passes...
+    tb->clk = !tb->clk; // Toggle a fast (time/2 period) clock
 
-    ++t;
+    //contextp->time();
 
-    top->reset = (t < 5) ? 1 : 0;
-    top->button = (t == 11) ? 1 : 0;
-
-    top->eval();
-    trace->dump(t);
+    tb->eval();
   }
 
-  trace->flush();
-  trace->close();
-  trace = NULL;
-
-  top->final();
+  tb->final();
 
 #if VM_COVERAGE
   Verilated::mkdir("logs");
   VerilatedCov::write("logs/coverage.dat");
 #endif
 
-  delete top;
-  top = NULL;
+  delete tb;
+  tb = NULL;
   exit(0);
 }

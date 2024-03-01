@@ -23,13 +23,12 @@ VERILATOR_FLAGS = -cc --exe \
                --coverage \
                --build -j \
 	       --Mdir build/verilator/obj_dir \
-	       --top top \
+	       --top top_tb \
 	       --no-trace-top \
+	       --timing \
 	       +libext+.v+.sv+.vh+.svh -y $(RTL_SRC_DIR)
 
-#VERILATOR_FLAGS += --timing
-
-VERILATOR_INPUT = $(RTL_SRC_DIR)/top.sv $(VERILATOR_SRC_DIR)/sim_main.cpp
+VERILATOR_INPUT = $(RTL_SRC_DIR)/top.sv $(VERILATOR_SRC_DIR)/sim_main.cpp $(SIM_SRC_DIR)/top_tb.sv
 # ######################################################################
 
 VERILATOR_COV_FLAGS += --annotate logs/annotated
@@ -45,7 +44,7 @@ verilator.tb:
 	@echo "\n-- RUN ---------------------\n"
 	@rm -rf $(VERILATOR_LOG_DIR)
 	@mkdir -p $(VERILATOR_LOG_DIR)
-	@cd $(VERILATOR_OUTPUT_DIR); $(VERILATOR_BUILD_DIR)/Vtop
+	@cd $(VERILATOR_OUTPUT_DIR); $(VERILATOR_BUILD_DIR)/Vtop_tb
 	@echo "\n-- COVERAGE ----------------\n"
 	@rm -rf $(VERILATOR_LOG_DIR)/annotated
 	@cd $(VERILATOR_OUTPUT_DIR); $(VERILATOR_COVERAGE) $(VERILATOR_COV_FLAGS)
@@ -56,7 +55,7 @@ verilator.cov_html: verilator.tb
 	$(GENHTML) $(VERILATOR_LOG_DIR)/coverage.info -o $(VERILATOR_LOG_DIR)/html
 
 verilator.wave: verilator.tb
-	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(VERILATOR_OUTPUT_DIR)/wave_verilator.fst
+	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(VERILATOR_OUTPUT_DIR)/wave.fst
 
 verilator.clean:
 	rm -rf $(VERILATOR_OUTPUT_DIR)

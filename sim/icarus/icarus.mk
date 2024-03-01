@@ -7,7 +7,7 @@ icarus.tb:
 	cd $(ICARUS_BUILD_DIR); vvp top.vvp -fst
 
 icarus.wave: icarus.tb
-	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(ICARUS_BUILD_DIR)/wave_icarus.fst
+	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(ICARUS_BUILD_DIR)/wave.fst
 
 icarus.vpi: icarus.tb
 	cd $(ICARUS_BUILD_DIR) ;\

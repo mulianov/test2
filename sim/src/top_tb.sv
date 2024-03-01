@@ -1,11 +1,21 @@
 `timescale 1ns / 1ps
 
-module top_tb ();
+module top_tb (
+`ifdef VERILATOR
+    input clk
+`endif
+);
     logic reset = 1'b1;
+
+`ifndef VERILATOR
     logic clk = 1'b0;
+    always #5 clk <= ~clk;
+`endif
 
     logic button = 1'b0;
+    /* verilator lint_off UNUSEDSIGNAL */
     logic red, green, blue;
+    /* verilator lint_on UNUSEDSIGNAL */
 
     top top_instance (
         .clk(clk),
@@ -16,7 +26,6 @@ module top_tb ();
         .blue(blue)
     );
 
-    always #5 clk <= ~clk;
 
     initial begin
         repeat (3) @(posedge clk);
@@ -28,12 +37,10 @@ module top_tb ();
     initial begin
         @(negedge reset);
 
-        // for (i = 0; i < 1; i++) begin
-            @(posedge clk);
-            button <= 1'b1;
-            @(posedge clk);
-            button <= 1'b0;
-        // end
+        @(posedge clk);
+        button = 1'b1;
+        @(posedge clk);
+        button = 1'b0;
 
         for (i = 0; i < 100; i++)
             @(posedge clk);
@@ -42,10 +49,8 @@ module top_tb ();
     end
 
     initial begin
-        $dumpfile("wave_icarus.fst");
-        $dumpvars(0, top_instance);
+        $dumpfile("wave.fst");
+        $dumpvars(1, top_instance);
     end
-
-    // initial $monitor($stime,, reset,, clk,, button,, red,, green,, blue);
 
 endmodule

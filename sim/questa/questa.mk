@@ -1,5 +1,11 @@
+QUESTA_SRC_DIR = $(CUR_DIR)/sim/questa
+
 vsim:
-	vsim -do sim/sim.do
+	vlib work
+	vlog -work work -O0 -cover bcs +acc \
+		$(RTL_SRC_DIR)/top.sv $(SIM_SRC_DIR)/top_tb.sv
+	vsim -voptargs=+acc -debugDB -coverage -fsmdebug \
+		-onfinish stop top_tb -do $(QUESTA_SRC_DIR)/sim.do
 
 docker.build:
 	docker build docker -t user/questa

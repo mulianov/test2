@@ -39,19 +39,17 @@ module top #(
         next = XXX;
         case (state)
             BLANK:   if (button)       next = RED;
-                     else              next = BLANK; // @lb
+                     else              next = BLANK;  // @lb
             RED:     if (counter_done) next = GREEN;
-                     else              next = RED;   // @lb
+                     else              next = RED;  // @lb
             GREEN:   if (counter_done) next = BLUE;
-                     else              next = GREEN; // @lb
+                     else              next = GREEN;  // @lb
             BLUE:    if (counter_done) next = BLANK;
                      else              next = BLUE;  // @lb
             default:                   next = XXX;
         endcase
     end
 
-`define STYLE3
-`ifdef STYLE3
     always_ff @(posedge clk or posedge reset)
         if (reset) begin
             red   <= '0;
@@ -63,50 +61,23 @@ module top #(
             blue  <= '0;
             case (next)
                 BLANK:   ;
-                RED:     red   <= 1'b1;
+                RED:     red <= 1'b1;
                 GREEN:   green <= 1'b1;
-                BLUE:    blue  <= 1'b1;
+                BLUE:    blue <= 1'b1;
                 default: {red, green, blue} <= 'x;
             endcase
         end
-`else  // STYLE4
-    logic n_red, n_green, n_blue;
-    always_comb begin
-        n_red   = '0;
-        n_green = '0;
-        n_blue  = '0;
-        case (state)
-            BLANK:   if (button) n_red = 1'b1;  /* RED */
- else;
-            RED:     n_green = 1'b1;
-            GREEN:   n_blue  = 1'b1;
-            BLUE:    ;
-            default: {n_red, n_green, n_blue} = 'x;
-        endcase
-    end
-
-    always_ff @(posedge clk or posedge reset)
-        if (reset) begin
-            red   <= '0;
-            green <= '0;
-            blue  <= '0;
-        end else begin
-            red   <= n_red;
-            green <= n_green;
-            blue  <= n_blue;
-        end
-`endif
 
 `ifndef __ICARUS__
-   always_ff @ (negedge reset) begin
-      AssertionExample: assert (state == BLANK);
-   end
+    always_ff @(negedge reset) begin
+        AssertionExample : assert (state == BLANK);
+    end
 
-   // And example coverage analysis
-   cover property (@(posedge clk) state == BLANK);
-   cover property (@(posedge clk) state == RED);
-   cover property (@(posedge clk) state == GREEN);
-   cover property (@(posedge clk) state == BLUE);
- `endif
+    // And example coverage analysis
+    cover property (@(posedge clk) state == BLANK);
+    cover property (@(posedge clk) state == RED);
+    cover property (@(posedge clk) state == GREEN);
+    cover property (@(posedge clk) state == BLUE);
+`endif
 
 endmodule

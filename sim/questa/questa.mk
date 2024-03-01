@@ -3,7 +3,7 @@ QUESTA_BUILD_DIR = $(CUR_DIR)/build/questa
 
 # vcom your_file.v; restart -f; run -A;
 
-vsim:
+vsim.tb:
 	mkdir -p $(QUESTA_BUILD_DIR)
 	cd $(QUESTA_BUILD_DIR); vlib work; \
 	vlog -work work -O0 -cover bcs +acc \

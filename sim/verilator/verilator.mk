@@ -16,13 +16,15 @@ GENHTML = genhtml
 
 VERILATOR_FLAGS = -cc --exe \
 	       --x-assign 0 \
-	       -Wall -Wno-fatal \
+	       -Wall -Wpedantic \
 	       -sv +1800-2017ext+sv \
 	       --trace-fst \
                --assert \
                --coverage \
                --build -j \
 	       --Mdir build/verilator/obj_dir \
+	       --top top \
+	       --no-trace-top \
 	       +libext+.v+.sv+.vh+.svh -y $(RTL_SRC_DIR)
 
 #VERILATOR_FLAGS += --timing
@@ -36,7 +38,7 @@ VERILATOR_COV_FLAGS += logs/coverage.dat
 
 ######################################################################
 
-verilate:
+verilator.tb:
 	@echo "\n-- VERILATE ----------------\n"
 	@mkdir -p $(VERILATOR_OUTPUT_DIR)
 	$(VERILATOR) $(VERILATOR_FLAGS) $(VERILATOR_INPUT)
@@ -49,12 +51,12 @@ verilate:
 	@cd $(VERILATOR_OUTPUT_DIR); $(VERILATOR_COVERAGE) $(VERILATOR_COV_FLAGS)
 	@echo "\n-- DONE --------------------\n"
 
-verilator.cov_html: verilate
+verilator.cov_html: verilator
 	@rm -rf $(VERILATOR_LOG_DIR)/annotated
 	$(GENHTML) $(VERILATOR_LOG_DIR)/coverage.info -o $(VERILATOR_LOG_DIR)/html
 
-verilator.wave: verilate
+verilator.wave: verilator
 	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(VERILATOR_OUTPUT_DIR)/wave_verilator.fst
 
-varilator.clean:
+verilator.clean:
 	rm -rf $(VERILATOR_OUTPUT_DIR)

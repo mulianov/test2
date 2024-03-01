@@ -51,11 +51,11 @@ verilator.tb:
 	@cd $(VERILATOR_OUTPUT_DIR); $(VERILATOR_COVERAGE) $(VERILATOR_COV_FLAGS)
 	@echo "\n-- DONE --------------------\n"
 
-verilator.cov_html: verilator
+verilator.cov_html: verilator.tb
 	@rm -rf $(VERILATOR_LOG_DIR)/annotated
 	$(GENHTML) $(VERILATOR_LOG_DIR)/coverage.info -o $(VERILATOR_LOG_DIR)/html
 
-verilator.wave: verilator
+verilator.wave: verilator.tb
 	gtkwave -T $(SIM_COMMON_DIR)/gtkwave.tcl $(VERILATOR_OUTPUT_DIR)/wave_verilator.fst
 
 verilator.clean:

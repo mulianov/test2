@@ -6,6 +6,7 @@
 
 int add(int a, int b) { return a + b; };
 
+
 int main(int argc, char **argv, char **env) {
   const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
   vluint64_t t = 0;
@@ -18,36 +19,22 @@ int main(int argc, char **argv, char **env) {
   Verilated::assertOn(false);
   VerilatedCov::zero();
 
-  // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
   Vtop *top = new Vtop;
   VerilatedFstC *trace = new VerilatedFstC;
-  top->trace(trace, 1); //99 leveles of hierarchy
+  top->trace(trace, 1);
   const char *trace_file_name = "wave_verilator.fst";
   trace->open(trace_file_name);
 
-  Verilated::scopesDump();
-  // svSetScope(svGetScopeFromName ("TOP.top"));
-  // Vtop::publicSetBool(1);
+  int clk = 0;
 
-  top->clk = 0;
   while (t < 100 && !contextp->gotFinish()) {
-    t = contextp->time();
+    top->clk = ~top->clk;
 
-    top->clk = !top->clk;
+    ++t;
 
-    if (t < 5) {
-      top->reset = 1;
-    } else {
-      top->reset = 0;
-      Verilated::assertOn(true);
-    }
+    top->reset = (t < 5) ? 1 : 0;
+    top->button = (t == 11) ? 1 : 0;
 
-    if (t == 11)
-      top->button = 1;
-    else
-      top->button = 0;
-
-    contextp->timeInc(1);
     top->eval();
     trace->dump(t);
   }

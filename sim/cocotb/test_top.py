@@ -3,7 +3,7 @@ import os
 from cocotb_test.simulator import run
 
 tests_dir = os.path.abspath(os.path.dirname(__file__))
-rtl_dir = os.path.abspath(os.path.join(tests_dir, '..', 'rtl'))
+rtl_dir = os.path.abspath(os.path.join(tests_dir, '..', '..', 'rtl'))
 
 def test_top():
     dut = "top"

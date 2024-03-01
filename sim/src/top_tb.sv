@@ -2,7 +2,7 @@
 
 module top_tb (
 `ifdef VERILATOR
-    input clk
+    input clk /*verilator clocker*/
 `endif
 );
     logic reset = 1'b1;
@@ -50,7 +50,7 @@ module top_tb (
 
     initial begin
         $dumpfile("wave.fst");
-        $dumpvars(1, top_instance);
+        $dumpvars(0, top_instance);
     end
 
 endmodule

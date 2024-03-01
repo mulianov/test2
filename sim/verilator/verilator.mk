@@ -26,6 +26,7 @@ VERILATOR_FLAGS = -cc --exe \
 	       --top top_tb \
 	       --no-trace-top \
 	       --timing \
+	       --trace-depth 99 \
 	       +libext+.v+.sv+.vh+.svh -y $(RTL_SRC_DIR)
 
 VERILATOR_INPUT = $(RTL_SRC_DIR)/top.sv $(VERILATOR_SRC_DIR)/sim_main.cpp $(SIM_SRC_DIR)/top_tb.sv

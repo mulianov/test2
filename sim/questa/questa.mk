@@ -1,9 +1,13 @@
 QUESTA_SRC_DIR = $(CUR_DIR)/sim/questa
+QUESTA_BUILD_DIR = $(CUR_DIR)/build/questa
+
+# vcom your_file.v; restart -f; run -A;
 
 vsim:
-	vlib work
+	mkdir -p $(QUESTA_BUILD_DIR)
+	cd $(QUESTA_BUILD_DIR); vlib work; \
 	vlog -work work -O0 -cover bcs +acc \
-		$(RTL_SRC_DIR)/top.sv $(SIM_SRC_DIR)/top_tb.sv
+		$(RTL_SRC_DIR)/top.sv $(SIM_SRC_DIR)/top_tb.sv ;\
 	vsim -voptargs=+acc -debugDB -coverage -fsmdebug \
 		-onfinish stop top_tb -do $(QUESTA_SRC_DIR)/sim.do
 

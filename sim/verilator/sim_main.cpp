@@ -4,41 +4,52 @@
 #include "Vtop.h"
 // #include "Vtop__Dpi.h"
 
-vluint64_t main_time = 0;
-
 int add(int a, int b) { return a + b; };
 
 int main(int argc, char **argv, char **env) {
+  const std::unique_ptr<VerilatedContext> contextp{new VerilatedContext};
+  vluint64_t t = 0;
+
   Verilated::debug(0);
   Verilated::randReset(2);
   Verilated::traceEverOn(true);
   Verilated::commandArgs(argc, argv);
   Verilated::mkdir("logs");
+  Verilated::assertOn(false);
+  VerilatedCov::zero();
 
   // Or use a const unique_ptr, or the VL_UNIQUE_PTR wrapper
   Vtop *top = new Vtop;
   VerilatedFstC *trace = new VerilatedFstC;
-  top->trace(trace, 99);
+  top->trace(trace, 1); //99 leveles of hierarchy
   const char *trace_file_name = "wave_verilator.fst";
   trace->open(trace_file_name);
 
-  // Verilated::scopesDump();
-  // svSetScope (svGetScopeFromName ("TOP.top"));
+  Verilated::scopesDump();
+  // svSetScope(svGetScopeFromName ("TOP.top"));
   // Vtop::publicSetBool(1);
 
   top->clk = 0;
-  // while (!Verilated::gotFinish()) {
-  while (main_time < 100) {
-    ++main_time;
+  while (t < 100 && !contextp->gotFinish()) {
+    t = contextp->time();
+
     top->clk = !top->clk;
-    top->reset = (main_time < 5) ? 1 : 0;
-    // VerilatedCov::zero();
-    if (main_time == 11)
+
+    if (t < 5) {
+      top->reset = 1;
+    } else {
+      top->reset = 0;
+      Verilated::assertOn(true);
+    }
+
+    if (t == 11)
       top->button = 1;
     else
       top->button = 0;
+
+    contextp->timeInc(1);
     top->eval();
-    trace->dump(10 * main_time + 5);
+    trace->dump(t);
   }
 
   trace->flush();

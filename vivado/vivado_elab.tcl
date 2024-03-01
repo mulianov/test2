@@ -19,6 +19,5 @@ read_xdc top.xdc
 #
 # STEP#2: run synthesis, report utilization and timing estimates, write checkpoint design
 #
-synth_design -top top -part xczu28dr-ffvg1517-2-e
-write_checkpoint -force $outputDir/post_synth -rtl
+synth_design -top top -part xczu28dr-ffvg1517-2-e -rtl
 exit

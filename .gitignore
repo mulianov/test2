@@ -19,3 +19,4 @@ transcript
 vsim.dbg
 vsim.wlf
 .nvim/svlangserver/linter.vc
+build

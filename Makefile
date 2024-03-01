@@ -14,8 +14,4 @@ verible_filelist:
 	find . -name "*.sv" -o -name "*.svh" -o -name "*.v" | sort > verible.filelist
 
 clean:
-	verible.filelist *.vcd  \
-	*.ucdb transcript vsim.dbg vsim.wlf \
-	work sim_build __pycache__ cscope* \
-	vivado*.jou vivado*.log \
-	.nvim .pytest_cache .Xil
+	rm -rf build

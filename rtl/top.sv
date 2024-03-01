@@ -97,4 +97,14 @@ module top #(
         end
 `endif
 
+   always_ff @ (posedge reset) begin
+      AssertionExample: assert (state == BLANK);
+   end
+
+   // And example coverage analysis
+   cover property (@(posedge clk) state == BLANK);
+   cover property (@(posedge clk) state == RED);
+   cover property (@(posedge clk) state == GREEN);
+   cover property (@(posedge clk) state == BLUE);
+
 endmodule

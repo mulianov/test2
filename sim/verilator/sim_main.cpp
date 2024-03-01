@@ -44,6 +44,7 @@ int main(int argc, char **argv, char **env) {
       top->button = 1;
     else
       top->button = 0;
+    // contextp->timeInc(1);  // 1 timeprecision period passes...
     // if (top->clk)
     //   top->i_data = main_time;
     //         top->contextp()->timeInc(1);

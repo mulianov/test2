@@ -14,7 +14,7 @@ endif
 
 GENHTML = genhtml
 
-VERILATOR_FLAGS = -cc \
+VERILATOR_FLAGS = -cc --exe \
 	       --x-assign 0 \
 	       -Wall -Wno-fatal \
 	       -sv +1800-2017ext+sv \
@@ -23,11 +23,11 @@ VERILATOR_FLAGS = -cc \
                --coverage \
                --build -j \
 	       --Mdir build/verilator/obj_dir \
-               -f $(VERILATOR_SRC_DIR)/input.vc
+	       +libext+.v+.sv+.vh+.svh -y $(RTL_SRC_DIR)
 
 #VERILATOR_FLAGS += --timing
 
-VERILATOR_INPUT = $(RTL_SRC_DIR)/top.sv --exe $(VERILATOR_SRC_DIR)/sim_main.cpp
+VERILATOR_INPUT = $(RTL_SRC_DIR)/top.sv $(VERILATOR_SRC_DIR)/sim_main.cpp
 # ######################################################################
 
 VERILATOR_COV_FLAGS += --annotate logs/annotated

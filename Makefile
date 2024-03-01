@@ -7,6 +7,7 @@ module_top = top
 include sim/icarus.mk
 include sim/verilator.mk
 include sim/questa.mk
+include sim/cocotb.mk
 include rtl/yosys.mk
 include vivado/vivado.mk
 

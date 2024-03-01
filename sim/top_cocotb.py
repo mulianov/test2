@@ -30,5 +30,5 @@ async def top_simple_test(dut):
     await RisingEdge(dut.clk)
     dut.button.value = 0
 
-    for i in range(10):
+    for i in range(100):
         await RisingEdge(dut.clk)

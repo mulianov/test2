@@ -9,12 +9,6 @@ vluint64_t main_time = 0;
 int add(int a, int b) { return a + b; };
 
 int main(int argc, char **argv, char **env) {
-  // This example started with the Verilator example files.
-  // Please see those examples for commented sources, here:
-  // https://github.com/verilator/verilator/tree/master/examples
-
-  // if (0 && argc && argv && env) {}
-
   Verilated::debug(0);
   Verilated::randReset(2);
   Verilated::traceEverOn(true);
@@ -29,7 +23,6 @@ int main(int argc, char **argv, char **env) {
   trace->open(trace_file_name);
 
   // Verilated::scopesDump();
-
   // svSetScope (svGetScopeFromName ("TOP.top"));
   // Vtop::publicSetBool(1);
 
@@ -39,21 +32,11 @@ int main(int argc, char **argv, char **env) {
     ++main_time;
     top->clk = !top->clk;
     top->reset = (main_time < 5) ? 1 : 0;
-    // if (main_time > 10 && main_time < 15)
+    // VerilatedCov::zero();
     if (main_time == 11)
       top->button = 1;
     else
       top->button = 0;
-    // contextp->timeInc(1);  // 1 timeprecision period passes...
-    // if (top->clk)
-    //   top->i_data = main_time;
-    //         top->contextp()->timeInc(1);
-    //         time_now = top->contextp()->time();
-    // if (main_time < 5) {
-    // // Zero coverage if still early in reset, otherwise toggles there may
-    //     // falsely indicate a signal is covered
-    //     VerilatedCov::zero();
-    // }
     top->eval();
     trace->dump(10 * main_time + 5);
   }
@@ -64,7 +47,6 @@ int main(int argc, char **argv, char **env) {
 
   top->final();
 
-  //  Coverage analysis (since test passed)
 #if VM_COVERAGE
   Verilated::mkdir("logs");
   VerilatedCov::write("logs/coverage.dat");

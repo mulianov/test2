@@ -11,6 +11,7 @@ include sim/questa/questa.mk
 include sim/cocotb/cocotb.mk
 include impl/yosys/yosys.mk
 include impl/vivado/vivado.mk
+include impl/gowin/gowin.mk
 
 verible_filelist:
 	find . -name "*.sv" -o -name "*.svh" -o -name "*.v" | sort > verible.filelist

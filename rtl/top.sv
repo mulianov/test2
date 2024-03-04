@@ -68,4 +68,18 @@ module top #(
             endcase
         end
 
+`ifdef VERIFY
+`ifndef __ICARUS__
+    always_ff @(negedge reset) begin
+        AssertionExample : assert (state == BLANK);
+    end
+
+    // And example coverage analysis
+    cover property (@(posedge clk) state == BLANK);
+    cover property (@(posedge clk) state == RED);
+    cover property (@(posedge clk) state == GREEN);
+    cover property (@(posedge clk) state == BLUE);
+`endif
+`endif
+
 endmodule

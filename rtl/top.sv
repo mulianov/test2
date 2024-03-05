@@ -69,7 +69,6 @@ module top #(
         end
 
 `ifdef VERIFY
-`ifndef __ICARUS__
     always_ff @(negedge reset) begin
         AssertionExample : assert (state == BLANK);
     end
@@ -79,7 +78,6 @@ module top #(
     cover property (@(posedge clk) state == RED);
     cover property (@(posedge clk) state == GREEN);
     cover property (@(posedge clk) state == BLUE);
-`endif
 `endif
 
 endmodule

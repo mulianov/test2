@@ -1,12 +1,18 @@
 # include  <vpi_user.h>
 
+void hello_register(void);
+
 static int hello_compiletf(char*user_data)
 {
+      (void)user_data;
+
       return 0;
 }
 
 static int hello_calltf(char*user_data)
 {
+      (void)user_data;
+
       vpi_printf("Hello, World!\n");
       return 0;
 }

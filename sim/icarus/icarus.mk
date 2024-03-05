@@ -1,4 +1,5 @@
 ICARUS_BUILD_DIR = $(CUR_DIR)/build/icarus
+ICARUS_SRC_DIR = $(CUR_DIR)/sim/icarus
 
 icarus.tb:
 	mkdir -p $(ICARUS_BUILD_DIR)
@@ -11,7 +12,7 @@ icarus.wave: icarus.tb
 
 icarus.vpi: icarus.tb
 	cd $(ICARUS_BUILD_DIR) ;\
-	iverilog-vpi $(SIM_SRC_DIR)/icarus/test_vpi.c ;\
+	iverilog-vpi $(ICARUS_SRC_DIR)/test_vpi.c ;\
 	vvp -M . -m test_vpi top.vvp
 
 icarus.clean:

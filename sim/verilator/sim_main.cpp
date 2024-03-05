@@ -20,7 +20,6 @@ int main(int argc, char **argv, char **env) {
 
   int clk = 0;
 
-#define CLK_PERIOD 10
   uint32_t tu = pow(10, contextp->timeunit() - contextp->timeprecision());
 
   while (!contextp->gotFinish()) {

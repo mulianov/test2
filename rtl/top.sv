@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+// verilog_format: off
 module top #(
     parameter int unsigned COUNTER_MAX = 10
 ) (
@@ -61,9 +62,9 @@ module top #(
             blue  <= '0;
             case (next)
                 BLANK:   ;
-                RED:     red <= 1'b1;
+                RED:     red   <= 1'b1;
                 GREEN:   green <= 1'b1;
-                BLUE:    blue <= 1'b1;
+                BLUE:    blue  <= 1'b1;
                 default: {red, green, blue} <= 'x;
             endcase
         end

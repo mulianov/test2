@@ -1,5 +1,6 @@
 #include <verilated.h>
 #include <verilated_fst_c.h>
+#include <math.h>
 
 #include "Vtop_tb.h"
 
@@ -19,12 +20,12 @@ int main(int argc, char **argv, char **env) {
 
   int clk = 0;
 
+#define CLK_PERIOD 10
+  uint32_t tu = pow(10, -(contextp->timeprecision() - contextp->timeunit()));
+
   while (!contextp->gotFinish()) {
-    contextp->timeInc(1);  // 1 timeprecision period passes...
+    contextp->timeInc(CLK_PERIOD / 2 * tu);  // 1 timeprecision period passes...
     tb->clk = !tb->clk; // Toggle a fast (time/2 period) clock
-
-    //contextp->time();
-
     tb->eval();
   }
 

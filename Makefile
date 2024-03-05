@@ -3,6 +3,8 @@ RTL_SRC_DIR = $(CUR_DIR)/rtl
 SIM_SRC_DIR = $(CUR_DIR)/sim/src
 SIM_COMMON_DIR = $(CUR_DIR)/sim/common
 
+CLK_PERIOD = 10
+
 module_top = top
 
 include sim/icarus/icarus.mk

@@ -4,6 +4,7 @@ ICARUS_SRC_DIR = $(CUR_DIR)/sim/icarus
 icarus.compile:
 	mkdir -p $(ICARUS_BUILD_DIR)
 	iverilog -o $(ICARUS_BUILD_DIR)/top.vvp -g2012 \
+                -DCLK_PERIOD=$(CLK_PERIOD) \
 		$(RTL_SRC_DIR)/top.sv $(SIM_SRC_DIR)/top_tb.sv
 
 icarus.run: icarus.compile

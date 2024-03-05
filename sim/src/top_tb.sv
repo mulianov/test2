@@ -2,14 +2,15 @@
 
 module top_tb (
 `ifdef VERILATOR
-    input clk /*verilator clocker*/
+    input clk  /*verilator clocker*/
 `endif
 );
     logic reset = 1'b1;
 
 `ifndef VERILATOR
+    localparam HALF_PERIOD = `CLK_PERIOD / 2;
     logic clk = 1'b0;
-    always #5 clk <= ~clk;
+    always #HALF_PERIOD clk <= ~clk;
 `endif
 
     logic button = 1'b0;
@@ -42,8 +43,7 @@ module top_tb (
         @(posedge clk);
         button = 1'b0;
 
-        for (i = 0; i < 100; i++)
-            @(posedge clk);
+        for (i = 0; i < 100; i++) @(posedge clk);
 
         $finish;
     end
